@@ -33,13 +33,14 @@ function checkWin(id, value) {
   }
 }
 
-//reset man choi
+//reset game
 btnAgain.addEventListener("click", e => {
   board = [
     ["", "", ""],
     ["", "", ""],
     ["", "", ""],
   ];
+  remain = 9;
   let cells = document.querySelectorAll(".cell");
   for (let i = 0; i < cells.length; i++) {
     cells[i].classList.remove("locked");
