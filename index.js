@@ -11,7 +11,7 @@ let boardElement = document.querySelector(".board");
 let title = document.querySelector(".title");
 let overlay = document.querySelector(".overlay");
 let btnAgain = document.querySelector("#btn-again");
-let remain = 9;
+let remain = 9; //remain cells
 
 function checkWin(id, value) {
   let i = Number(id[0]);
@@ -58,7 +58,7 @@ btnAgain.addEventListener("click", e => {
 
 for (let i = 0; i < 3; i++) {
   for (let j = 0; j < 3; j++) {
-    //tao cell va them id theo vi tri i,j
+    //create cell and add id base on i,j
     let tempCell = document.createElement("div");
     let _id = `${i}${j}`;
     tempCell.setAttribute("id", _id);
@@ -66,13 +66,12 @@ for (let i = 0; i < 3; i++) {
 
     //add event
     tempCell.addEventListener("click", e => {
-      //neu chua co class locked => da click
+      // check if cell has clicked, if not add locked class, also check game ended?
       if (!e.target.classList.contains("locked") && gameEnded === false) {
-        // giam 1 nuoc di
+        // reduce 1 cell
         remain--;
         e.target.classList.add("locked");
-        //neu player 1, gia tri x, doi player va nguoc lai
-        // let _id = e.target.getAttribute("id");
+        //if player1, x
         let value;
         if (player1) {
           e.target.textContent = "X";
@@ -85,7 +84,8 @@ for (let i = 0; i < 3; i++) {
           player1 = !player1;
           value = "o";
         }
-        // console.log("id ", _id, " value ", value);
+        // console.log("id ", _id, " value ", value);   <--- just for console test
+        //check every new cell clicked
         checkWin(_id, value);
       }
     });
