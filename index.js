@@ -43,18 +43,13 @@ btnAgain.addEventListener("click", e => {
   let cells = document.querySelectorAll(".cell");
   for (let i = 0; i < cells.length; i++) {
     cells[i].classList.remove("locked");
+    cells[i].classList.remove("x");
+    cells[i].classList.remove("o");
     cells[i].textContent = "";
     overlay.classList.toggle("hidden");
     gameEnded = false;
   }
 });
-// for test
-// document.addEventListener("keydown", e => {
-//   console.log(e.keyCode);
-//   if (e.keyCode === 27) {
-//     overlay.classList.toggle("hidden");
-//   }
-// });
 
 for (let i = 0; i < 3; i++) {
   for (let j = 0; j < 3; j++) {
@@ -64,29 +59,45 @@ for (let i = 0; i < 3; i++) {
     tempCell.setAttribute("id", _id);
     tempCell.classList.add("cell");
 
-    //add event
+    // add click event
     tempCell.addEventListener("click", e => {
+      //set value will add as x if player1
+      let value = player1 ? "x" : "o";
+
       // check if cell has clicked, if not add locked class, also check game ended?
       if (!e.target.classList.contains("locked") && gameEnded === false) {
         // reduce 1 cell
         remain--;
+        //add locked class, change cell text to X / O
         e.target.classList.add("locked");
-        //if player1, x
+        e.target.textContent = value.toUpperCase();
+        e.target.classList.add(`${value}`);
+        //add value to board to check
+        board[_id[0]][_id[1]] = value;
+        //change player
+        player1 = !player1;
+        //check is win
+        checkWin(_id, value);
+
+        /* --- OLD CODE ----
         let value;
         if (player1) {
           e.target.textContent = "X";
+          e.target.classList.add("x");
           board[_id[0]][_id[1]] = "x";
           player1 = !player1;
           value = "x";
         } else {
           e.target.textContent = "O";
+          e.target.classList.add("o");
           board[_id[0]][_id[1]] = "o";
           player1 = !player1;
           value = "o";
         }
-        // console.log("id ", _id, " value ", value);   <--- just for console test
-        //check every new cell clicked
+        console.log("id ", _id, " value ", value);   <--- just for console test
+        check every new cell clicked  
         checkWin(_id, value);
+        */
       }
     });
 
