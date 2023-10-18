@@ -11,6 +11,7 @@ let boardElement = document.querySelector(".board");
 let title = document.querySelector(".title");
 let overlay = document.querySelector(".overlay");
 let btnAgain = document.querySelector("#btn-again");
+let playing = document.querySelector("#current");
 let remain = 9; //remain cells
 
 function checkWin(id, value) {
@@ -33,6 +34,20 @@ function checkWin(id, value) {
   }
 }
 
+const nextPlayer = player => {
+  if (player) {
+    playing.textContent = "X";
+    playing.classList.remove("o");
+    playing.classList.add("x");
+  } else {
+    playing.textContent = "O";
+    playing.classList.remove("x");
+    playing.classList.add("o");
+  }
+};
+
+nextPlayer(player1);
+
 //reset game
 btnAgain.addEventListener("click", e => {
   board = [
@@ -49,6 +64,8 @@ btnAgain.addEventListener("click", e => {
     cells[i].textContent = "";
     overlay.classList.toggle("hidden");
     gameEnded = false;
+    player1 = true;
+    nextPlayer(player1);
   }
 });
 
@@ -77,6 +94,7 @@ for (let i = 0; i < 3; i++) {
         board[_id[0]][_id[1]] = value;
         //change player
         player1 = !player1;
+        nextPlayer(player1);
         //check is win
         checkWin(_id, value);
 
